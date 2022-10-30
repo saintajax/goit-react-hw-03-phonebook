@@ -5,6 +5,8 @@ import { ContactsList } from './ContactsList/ContactsList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 
+const LS_KEY = 'local_storage_list';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -15,6 +17,17 @@ export class App extends Component {
     ],
     filter: '',
   };
+
+  componentDidMount() {
+    const localeStorageList = JSON.parse(localStorage.getItem(LS_KEY));
+    if (localeStorageList) {
+      this.setState({ contacts: localeStorageList });
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
+  }
 
   handleInputChange = e => {
     const { name, value } = e.target;
