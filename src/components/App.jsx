@@ -30,16 +30,14 @@ export class App extends Component {
   }
 
   handleInputChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    const { value } = e.target;
+    this.setState({ filter: value });
   };
 
   addContact = ({ name, number }) => {
     const { contacts } = this.state;
     const newContact = { id: nanoid(), name, number };
-    // if (!newContact.name || !newContact.number) {
-    //   return;
-    // }
+
     contacts.some(contact => contact.name === newContact.name)
       ? alert(`This contact is already in list`)
       : this.setState(prevState => ({
@@ -54,7 +52,7 @@ export class App extends Component {
   };
 
   render() {
-    const { contacts, name, number, filter } = this.state;
+    const { contacts, filter } = this.state;
     const normFilter = filter.trim().toLowerCase();
     const visibleContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normFilter)
@@ -71,12 +69,7 @@ export class App extends Component {
         alignItems="center"
       >
         <h1>Phonebook</h1>
-        <ContactForm
-          valueName={name}
-          valueNumber={number}
-          handleChange={this.handleInputChange}
-          addContact={this.addContact}
-        />
+        <ContactForm addContact={this.addContact} />
 
         {contacts.length ? (
           <>
