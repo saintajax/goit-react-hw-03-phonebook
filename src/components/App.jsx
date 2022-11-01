@@ -25,8 +25,10 @@ export class App extends Component {
     }
   }
 
-  componentDidUpdate() {
-    localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem(LS_KEY, JSON.stringify(this.state.contacts));
+    }
   }
 
   handleInputChange = e => {
